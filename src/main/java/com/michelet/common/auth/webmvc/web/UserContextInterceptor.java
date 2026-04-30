@@ -19,6 +19,9 @@ public class UserContextInterceptor implements HandlerInterceptor {
         String userId = normalize(request.getHeader(AuthHeaders.USER_ID));
         String roleValue = normalize(request.getHeader(AuthHeaders.USER_ROLE));
 
+        System.out.println("[service] userId = " + userId);
+        System.out.println("[service] roleValue = " + roleValue);
+
         if(userId!=null)
             UserContextHolder.set(new UserContext(userId,parseRole(roleValue)));
 

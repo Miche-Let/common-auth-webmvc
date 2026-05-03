@@ -1,5 +1,6 @@
 package com.michelet.common.auth.webmvc.filter;
 
+import com.michelet.common.auth.core.constants.InternalAuthHeaders;
 import com.michelet.common.auth.webmvc.config.InternalAuthProperties;
 import com.michelet.common.auth.webmvc.internal.InternalTokenClaims;
 import com.michelet.common.auth.webmvc.internal.InternalTokenProvider;
@@ -13,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class InternalAuthFilter extends OncePerRequestFilter {
-
-    private static final String INTERNAL_HEADER = "X-Internal-Token";
 
     private final InternalTokenProvider internalTokenProvider;
     private final InternalAuthProperties internalAuthProperties;
@@ -30,7 +29,7 @@ public class InternalAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String token = request.getHeader(INTERNAL_HEADER);
+        String token = request.getHeader(InternalAuthHeaders.INTERNAL_TOKEN);
         if (token == null || token.isBlank()) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "내부 토큰이 필요합니다.");
             return;

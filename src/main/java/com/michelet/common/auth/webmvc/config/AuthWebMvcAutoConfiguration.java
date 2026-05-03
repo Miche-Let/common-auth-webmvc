@@ -2,7 +2,7 @@ package com.michelet.common.auth.webmvc.config;
 
 import com.michelet.common.auth.webmvc.aop.AuthorizationAspect;
 import com.michelet.common.auth.webmvc.filter.InternalAuthFilter;
-import com.michelet.common.auth.webmvc.interceptor.interceptor.UserContextInterceptor;
+import com.michelet.common.auth.webmvc.interceptor.UserContextInterceptor;
 import com.michelet.common.auth.webmvc.internal.InternalTokenProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AutoConfiguration
 @EnableConfigurationProperties(InternalAuthProperties.class)
 public class AuthWebMvcAutoConfiguration {
+
+    private static final String INTERNAL_PREFIX = "/internal/";
+
     @Bean
     @ConditionalOnMissingBean
     public UserContextInterceptor userContextInterceptor(){
@@ -44,14 +47,13 @@ public class AuthWebMvcAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public FilterRegistrationBean<InternalAuthFilter> internalAuthFilterFilterRegistrationBean(
             InternalAuthFilter internalAuthFilter
     ){
         FilterRegistrationBean<InternalAuthFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(internalAuthFilter);
         registrationBean.setOrder(Integer.MIN_VALUE);
-        registrationBean.addUrlPatterns("/internal/*");
+        registrationBean.addUrlPatterns(INTERNAL_PREFIX +"*");
         return registrationBean;
     }
 

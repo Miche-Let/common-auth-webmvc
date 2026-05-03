@@ -13,7 +13,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class InternalAuthFilter extends OncePerRequestFilter {
 
-    private static final String INTERNAL_PREFIX = "/internal/";
     private static final String INTERNAL_HEADER = "X-Internal-Token";
 
     private final InternalTokenProvider internalTokenProvider;
@@ -25,11 +24,6 @@ public class InternalAuthFilter extends OncePerRequestFilter {
     ) {
         this.internalTokenProvider = internalTokenProvider;
         this.internalAuthProperties = internalAuthProperties;
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getRequestURI().startsWith(INTERNAL_PREFIX);
     }
 
     @Override

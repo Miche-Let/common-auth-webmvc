@@ -3,6 +3,7 @@ package com.michelet.common.auth.webmvc.filter;
 import com.michelet.common.auth.webmvc.config.InternalAuthProperties;
 import com.michelet.common.auth.webmvc.internal.InternalTokenClaims;
 import com.michelet.common.auth.webmvc.internal.InternalTokenProvider;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,8 +48,10 @@ public class InternalAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
 
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 내부 토큰입니다.");
+        } catch (RuntimeException e) {
+                       throw e;
         }
     }
 }

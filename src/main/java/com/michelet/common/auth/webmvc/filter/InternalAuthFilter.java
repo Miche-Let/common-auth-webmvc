@@ -40,11 +40,9 @@ public class InternalAuthFilter extends OncePerRequestFilter {
                 response.sendError(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 내부 토큰입니다.");
                 return;
             }
-            if (internalAuthProperties.getAudience() == null
-                    || internalAuthProperties.getAudience().isBlank()
-                    || claims.audience() == null
+            if (claims.audience() == null
                     || !claims.audience().contains(internalAuthProperties.getAudience())) {
-                response.sendError(HttpStatus.FORBIDDEN.value(), "Invalid internal audience.");
+                response.sendError(HttpStatus.FORBIDDEN.value(), "유효하지 않은 대상 서비스입니다.");
                 return;
             }
             filterChain.doFilter(request, response);

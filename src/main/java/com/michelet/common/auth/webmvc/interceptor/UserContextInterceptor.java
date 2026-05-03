@@ -1,4 +1,4 @@
-package com.michelet.common.auth.webmvc.interceptor.interceptor;
+package com.michelet.common.auth.webmvc.interceptor;
 
 import com.michelet.common.auth.core.constants.AuthHeaders;
 import com.michelet.common.auth.core.context.UserContext;

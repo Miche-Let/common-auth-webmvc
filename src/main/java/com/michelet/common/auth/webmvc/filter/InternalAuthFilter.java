@@ -1,7 +1,6 @@
 package com.michelet.common.auth.webmvc.filter;
 
 import com.michelet.common.auth.core.constants.InternalAuthHeaders;
-import com.michelet.common.auth.webmvc.config.InternalAuthProperties;
 import com.michelet.common.auth.webmvc.internal.InternalTokenClaims;
 import com.michelet.common.auth.webmvc.internal.InternalTokenProvider;
 import io.jsonwebtoken.JwtException;
@@ -16,14 +15,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class InternalAuthFilter extends OncePerRequestFilter {
 
     private final InternalTokenProvider internalTokenProvider;
-    private final InternalAuthProperties internalAuthProperties;
+    private final String applicationName;
 
     public InternalAuthFilter(
             InternalTokenProvider internalTokenProvider,
-            InternalAuthProperties internalAuthProperties
+            String applicationName
     ) {
         this.internalTokenProvider = internalTokenProvider;
-        this.internalAuthProperties = internalAuthProperties;
+        this.applicationName = applicationName;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class InternalAuthFilter extends OncePerRequestFilter {
                 return;
             }
             if (claims.audience() == null
-                    || !claims.audience().contains(internalAuthProperties.getAudience())) {
+                    || !claims.audience().contains()) {
                 response.sendError(HttpStatus.FORBIDDEN.value(), "유효하지 않은 대상 서비스입니다.");
                 return;
             }

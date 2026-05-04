@@ -4,6 +4,7 @@ import com.michelet.common.auth.webmvc.aop.AuthorizationAspect;
 import com.michelet.common.auth.webmvc.filter.InternalAuthFilter;
 import com.michelet.common.auth.webmvc.interceptor.UserContextInterceptor;
 import com.michelet.common.auth.webmvc.internal.InternalTokenProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -41,9 +42,9 @@ public class AuthWebMvcAutoConfiguration {
     @ConditionalOnMissingBean
     public InternalAuthFilter internalAuthFilter(
             InternalTokenProvider internalTokenProvider,
-            InternalAuthProperties internalAuthProperties
+            @Value("${spring.application.name}") String applicationName
     ){
-        return new InternalAuthFilter(internalTokenProvider, internalAuthProperties);
+        return new InternalAuthFilter(internalTokenProvider, applicationName);
     }
 
     @Bean

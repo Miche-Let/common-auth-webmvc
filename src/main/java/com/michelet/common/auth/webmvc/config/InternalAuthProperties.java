@@ -11,7 +11,6 @@ public class InternalAuthProperties {
     public void validate(){
         if(secret== null || secret.isBlank())
             throw new IllegalArgumentException("internal.auth.secret must not be blank.");
-
     }
 
     public String getSecret(){
@@ -20,4 +19,5 @@ public class InternalAuthProperties {
     public void setSecret(String secret){
         this.secret = secret;
     }
+
 }

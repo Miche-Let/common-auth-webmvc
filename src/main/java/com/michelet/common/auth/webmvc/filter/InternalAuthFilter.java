@@ -40,7 +40,7 @@ public class InternalAuthFilter extends OncePerRequestFilter {
                 return;
             }
             if (claims.audience() == null
-                    || !claims.audience().contains()) {
+                    || !claims.audience().contains(applicationName)) {
                 response.sendError(HttpStatus.FORBIDDEN.value(), "유효하지 않은 대상 서비스입니다.");
                 return;
             }
